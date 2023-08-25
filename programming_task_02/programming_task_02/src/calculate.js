@@ -16,14 +16,11 @@ async function getByActionId(id) {
 async function calculate(event) {
   const body = typeof event.body === "string" ? JSON.parse(event.body) : event.body;
   const actionId = body.actionid;
-  console.log("********************")
-  console.log("calc actionid:", actionId); 
+
   
   const test_action = await getByActionId(actionId);
   const action = new Action({id:test_action.pk, parentRule:test_action.parentRule, role:test_action.ROLE, handler:test_action.handler})
-  console.log("calc action:", action); 
   const childActions = await action.getChildActions();
-  console.log("Child Actions:", childActions);  // Log the child actions
 
 
   let results = [];
