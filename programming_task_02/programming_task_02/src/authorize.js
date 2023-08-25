@@ -44,29 +44,21 @@ async function authorize(event) {
 
   const body = typeof event.body === "string" ? JSON.parse(event.body) : event.body;
 const actionId = body.actionid;
-// console.log('Pipa:UserID:', userId);
-// console.log('ActionID:', actionId);
 
-console.log("--------------------------------")
-// const test_user = await getById(userId)
+
 const test_user = await getById(userId);
 const user = new User({id:test_user.pk, role:test_user.role})
-console.log('pipa user:', user);
 
 
 const test_action = await getByActionId(actionId);
 const action = new Action({id:test_action.pk, parentRule:test_action.parentRule, role:test_action.ROLE, handler:test_action.handler})
-console.log('pipa action:', action);
 
 // Check authorization based on role hierarchy
 // Use the function in your authorization logic
 if (!canPerformAction(user.role, action.role)) {
-  console.log("not allowed")
   return false;
 }
-console.log("allowed")
 return true;
-console.log("--------------------------------")
 }
 
 module.exports = authorize;
